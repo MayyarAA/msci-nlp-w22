@@ -11,13 +11,12 @@ import re
 import random
 import csv
 
-from google.colab import drive
-drive.mount('/content/drive')
 
-!ls "/content/drive/My Drive/Colab Notebooks/MSCI598"
-
-posFilePath = "/content/drive/My Drive/Colab Notebooks/MSCI598/pos.txt"
-stopWordsFilePath = "/content/drive/My Drive/Colab Notebooks/MSCI598/nltkstopwordslist.txt"
+posFilePath = "./pos.txt"
+stopWordsFilePath = "./nltkstopwordslist.txt"
+def runApp(fileToParse,stopWordsFilePathFull):
+  posFileString = retriveTextFromFile(posFilePath)
+  stopWordsList = retriveTextFromFile(stopWordsFilePath)
 
 #get text from file
 def retriveTextFromFile(filePath):
@@ -36,12 +35,12 @@ def removeSpecailCharFromList(orgWordList):
     word = removeSpecailCharFromString(curr)
     wordList.append(word)
   return wordList;
-#posFileString.pop(0)
+
 
 def removeSpecailCharFromString(orgWord):
   return re.sub(r"[^a-zA-Z0-9]+", ' ', orgWord).strip()
 
-#create dict to store stopwords
+#create hashset to store stopwords
 def createHashSetFromWordList(wordList):
     wordHashSet=set()
     for curr in wordList:
@@ -66,8 +65,6 @@ def tokenizeWordList(wordList):
 #tokenize wordlist
 tokenizedWordList = tokenizeWordList(wordListWithoutSpecChar)
 tokenizedWordList.pop(0)
-
-
 
 #remove stopwords
 def removeStopWords(tokenizedWordList,wordHashSet):    
@@ -96,8 +93,7 @@ testTokenList
 #remove stopwords 
 tokenizedWordListWithoutStopWords = removeStopWords(tokenizedWordList,stopWordsHashSet)
 #tokenizedWordListWithoutStopWords.pop(0)
-
-#4 Randomly split your data into training (80%), validation (10%) and test (10%) sets
+len(tokenizedWordListWithoutStopWords)
 
 #randomly split your data into training(80%) and validation(10%) and test(10%) sets 
 
@@ -107,30 +103,36 @@ random.shuffle(tokenizedWordListWithoutStopWords)
 tokenizedWordListWithoutStopWordsTraining =  tokenizedWordListWithoutStopWords[:int((len(tokenizedWordListWithoutStopWords)+1)*.8)]
 print(' tokenizedWordListWithoutStopWordsTraining len ', len(tokenizedWordListWithoutStopWordsTraining), ' pop top ',tokenizedWordListWithoutStopWordsTraining.pop(0))
 random.shuffle(tokenizedWordListWithoutStopWords)
-tokenizedWordListWithoutStopWordsValidation =  tokenizedWordListWithoutStopWords[:int((len(tokenizedWordListWithoutStopWords)+1)*.1)]
+tokenizedWordListWithoutStopWordsValidation =  tokenizedWordListWithoutStopWords[int((len(tokenizedWordListWithoutStopWords)+1)*.8):int((len(tokenizedWordListWithoutStopWords)+1)*.9)]
 print(' tokenizedWordListWithoutStopWordsValidation len ', len(tokenizedWordListWithoutStopWordsValidation), ' pop top ',tokenizedWordListWithoutStopWordsValidation.pop(0))
 random.shuffle(tokenizedWordListWithoutStopWords)
-tokenizedWordListWithoutStopWordsTesting =  tokenizedWordListWithoutStopWords[:int((len(tokenizedWordListWithoutStopWords)+1)*.1)]
+tokenizedWordListWithoutStopWordsTesting =  tokenizedWordListWithoutStopWords[int((len(tokenizedWordListWithoutStopWords)+1)*.9):int((len(tokenizedWordListWithoutStopWords)+1)*1)]
 print(' tokenizedWordListWithoutStopWordsTesting len ', len(tokenizedWordListWithoutStopWordsTesting), ' pop top ',tokenizedWordListWithoutStopWordsTesting.pop(0) )
 
 #split list w/ stopwords
 random.shuffle(tokenizedWordList)
+print(' tokenizedWordList len ', len(tokenizedWordList))
 tokenizedWordListTraining =  tokenizedWordList[:int((len(tokenizedWordList)+1)*.8)]
 print(' tokenizedWordListTraining len ', len(tokenizedWordListTraining), ' pop top ',tokenizedWordListTraining.pop(0))
 random.shuffle(tokenizedWordList)
-tokenizedWordListValidation =  tokenizedWordList[:int((len(tokenizedWordList)+1)*.1)]
+tokenizedWordListValidation =  tokenizedWordList[int((len(tokenizedWordList)+1)*.8):int((len(tokenizedWordList)+1)*.9)]
 print(' tokenizedWordListValidation len ', len(tokenizedWordListValidation), ' pop top ',tokenizedWordListValidation.pop(0))
 random.shuffle(tokenizedWordList)
-tokenizedWordListTesting =  tokenizedWordList[:int((len(tokenizedWordList)+1)*.1)]
+tokenizedWordListTesting =  tokenizedWordList[int((len(tokenizedWordList)+1)*.9):int((len(tokenizedWordList)+1)*1)]
 print(' tokenizedWordListTesting len ', len(tokenizedWordListTesting), ' pop top ',tokenizedWordListTesting.pop(0) )
 
-#Create Output files
-def writeToFileWithList(list):
-  with open('GFG','w') as f:
-    write = csv.writer(f)
-    write.writerows(list)
 
-writeToFileWithList(tokenizedWordListTesting)
+#Create Output files
+def writeToFileWithListV2(list,filename):
+  outputFile = open(filename,"w")
+  csvWriter = csv.writer(outputFile);
+  for line in list:
+    #lineString = ''.join(str(word) for word in line)
+    csvWriter.writerow(line)
+  outputFile.close()
+
+
+writeToFileWithListV2(tokenizedWordListWithoutStopWords,"./data/tokenizedWordListWithoutStopWords.csv")
 
 #2 Remove the following special characters: !"#$%&()*+/:;<=>@[\\]^`{|}~\t\n
 
