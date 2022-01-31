@@ -127,36 +127,38 @@ tokenizedWordList = tokenizeWordList(wordListWithoutSpecChar)
 #(3.2) without stopwords.
 
 #remove stopwords
+#randomize shuffle of lists
+random.shuffle(tokenizedWordList)
 tokenizedWordListWithoutStopWords = removeStopWords(tokenizedWordList,stopWordsHashSet)
 
 #####4 Randomly split your data into training (80%), validation (10%) and test (10%) sets
 print(' tokenizedWordListWithoutStopWords len ', len(tokenizedWordListWithoutStopWords))
+
 #split list w/o stopwords
-random.shuffle(tokenizedWordListWithoutStopWords)
 tokenizedWordListWithoutStopWordsTraining =  tokenizedWordListWithoutStopWords[:int((len(tokenizedWordListWithoutStopWords)+1)*.8)]
-print(' tokenizedWordListWithoutStopWordsTraining len ', len(tokenizedWordListWithoutStopWordsTraining), ' pop top ',tokenizedWordListWithoutStopWordsTraining.pop(0))
-random.shuffle(tokenizedWordListWithoutStopWords)
+print(' tokenizedWordListWithoutStopWordsTraining len ', len(tokenizedWordListWithoutStopWordsTraining))
+
 tokenizedWordListWithoutStopWordsValidation =  tokenizedWordListWithoutStopWords[int((len(tokenizedWordListWithoutStopWords)+1)*.8):int((len(tokenizedWordListWithoutStopWords)+1)*.9)]
-print(' tokenizedWordListWithoutStopWordsValidation len ', len(tokenizedWordListWithoutStopWordsValidation), ' pop top ',tokenizedWordListWithoutStopWordsValidation.pop(0))
-random.shuffle(tokenizedWordListWithoutStopWords)
+print(' tokenizedWordListWithoutStopWordsValidation len ', len(tokenizedWordListWithoutStopWordsValidation))
+
 tokenizedWordListWithoutStopWordsTesting =  tokenizedWordListWithoutStopWords[int((len(tokenizedWordListWithoutStopWords)+1)*.9):int((len(tokenizedWordListWithoutStopWords)+1)*1)]
-print(' tokenizedWordListWithoutStopWordsTesting len ', len(tokenizedWordListWithoutStopWordsTesting), ' pop top ',tokenizedWordListWithoutStopWordsTesting.pop(0) )
+print(' tokenizedWordListWithoutStopWordsTesting len ', len(tokenizedWordListWithoutStopWordsTesting))
+
 
 #split list w/ stopwords
-random.shuffle(tokenizedWordList)
 print(' tokenizedWordList len ', len(tokenizedWordList))
+
 tokenizedWordListTraining =  tokenizedWordList[:int((len(tokenizedWordList)+1)*.8)]
-print(' tokenizedWordListTraining len ', len(tokenizedWordListTraining), ' pop top ',tokenizedWordListTraining.pop(0))
-random.shuffle(tokenizedWordList)
+print(' tokenizedWordListTraining len ', len(tokenizedWordListTraining))
+
 tokenizedWordListValidation =  tokenizedWordList[int((len(tokenizedWordList)+1)*.8):int((len(tokenizedWordList)+1)*.9)]
-print(' tokenizedWordListValidation len ', len(tokenizedWordListValidation), ' pop top ',tokenizedWordListValidation.pop(0))
-random.shuffle(tokenizedWordList)
+print(' tokenizedWordListValidation len ', len(tokenizedWordListValidation))
+
 tokenizedWordListTesting =  tokenizedWordList[int((len(tokenizedWordList)+1)*.9):int((len(tokenizedWordList)+1)*1)]
-print(' tokenizedWordListTesting len ', len(tokenizedWordListTesting), ' pop top ',tokenizedWordListTesting.pop(0) )
+print(' tokenizedWordListTesting len ', len(tokenizedWordListTesting))
 
 
 #write to output files
-#writeToFileWithListV2(tokenizedWordList,"./data/out.csv")
 writeToFileWithListV2(tokenizedWordList,pathTotokenizedWordList)
 writeToFileWithListV2(tokenizedWordListTraining,pathTotokenizedWordListTraining)
 writeToFileWithListV2(tokenizedWordListValidation,pathTotokenizedWordListValidation)
