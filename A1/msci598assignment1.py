@@ -10,13 +10,15 @@ Original file is located at
 import re
 import random
 import csv
+import sys
+
+#take in cmd line args
 
 
 posFilePath = "./pos.txt"
-stopWordsFilePath = "./nltkstopwordslist.txt"
-def runApp(fileToParse,stopWordsFilePathFull):
-  posFileString = retriveTextFromFile(posFilePath)
-  stopWordsList = retriveTextFromFile(stopWordsFilePath)
+negFilePath =  "./neg.txt"
+stopWordsFilePath =  "./nltkstopwordslist.txt"
+
 
 #get text from file
 def retriveTextFromFile(filePath):
@@ -25,6 +27,7 @@ def retriveTextFromFile(filePath):
     return posFileString
 
 posFileString = retriveTextFromFile(posFilePath)
+negFileString = retriveTextFromFile(posFilePath)
 stopWordsList = retriveTextFromFile(stopWordsFilePath)
 
 #2 Remove the following special characters: !"#$%&()*+/:;<=>@[\\]^`{|}~\t\n
@@ -49,10 +52,11 @@ def createHashSetFromWordList(wordList):
 
 #remove specailchars from wordlists
 wordListWithoutSpecChar = removeSpecailCharFromList(posFileString)
+wordListWithoutSpecCharNeg = removeSpecailCharFromList(negFileString)
 stopWordsWithOutSpecChar = removeSpecailCharFromList(stopWordsList)
+
 #create hashset to store stopwords
 stopWordsHashSet = createHashSetFromWordList(stopWordsWithOutSpecChar)
-len(stopWordsHashSet)
 
 #tokenize wordlist
 def tokenizeWordList(wordList):
@@ -62,40 +66,43 @@ def tokenizeWordList(wordList):
     tokenizedWordList.append(wordArray)
   return tokenizedWordList
 
-#tokenize wordlist
+#tokenize wordlist and combine postive and negative lists
+len(wordListWithoutSpecChar)
+wordListWithoutSpecChar.extend(wordListWithoutSpecCharNeg)
+len(wordListWithoutSpecChar)
 tokenizedWordList = tokenizeWordList(wordListWithoutSpecChar)
-tokenizedWordList.pop(0)
+#tokenizedWordListNeg = tokenizeWordList(wordListWithoutSpecCharNeg)
+
 
 #remove stopwords
-def removeStopWords(tokenizedWordList,wordHashSet):    
+def removeStopWords(tokenizedWordList,wordHashSet):
   tokenizedWordListWithoutStopWords = []
-  for wordArr in tokenizedWordList: 
-    wordArrWithoutStopWords = []   
-    for word in wordArr:                  
-      if word not in wordHashSet:  
-        wordArrWithoutStopWords.append(word)     
+  for wordArr in tokenizedWordList:
+    wordArrWithoutStopWords = []
+    for word in wordArr:
+      if word not in wordHashSet:
+        wordArrWithoutStopWords.append(word)
     tokenizedWordListWithoutStopWords.append(wordArrWithoutStopWords)
   return tokenizedWordListWithoutStopWords
 
 print('out' in stopWordsHashSet)
 
-#--------testing--------------
-testTokenWordList= [['word','out','jsks','tom'],['word','bas','kook','out']]
-testSet = {"out","kook"}
-testTokenList = removeStopWords(testTokenWordList,testSet)
-testTokenList
 
-#3 Create two versions of your dataset: 
-#(3.1) with stopwords 
 
-#(3.2) without stopwords. 
+#3 Create two versions of your dataset:
+#(3.1) with stopwords
 
-#remove stopwords 
+#(3.2) without stopwords.
+
+#remove stopwords
 tokenizedWordListWithoutStopWords = removeStopWords(tokenizedWordList,stopWordsHashSet)
-#tokenizedWordListWithoutStopWords.pop(0)
+#tokenizedWordListWithoutStopWordsNeg = removeStopWords(tokenizedWordListNeg,stopWordsHashSet)
+#len(tokenizedWordListWithoutStopWords)
+#tokenizedWordListWithoutStopWords.extend(tokenizedWordListWithoutStopWordsNeg)
 len(tokenizedWordListWithoutStopWords)
 
-#randomly split your data into training(80%) and validation(10%) and test(10%) sets 
+
+#randomly split your data into training(80%) and validation(10%) and test(10%) sets
 
 print(' tokenizedWordListWithoutStopWords len ', len(tokenizedWordListWithoutStopWords))
 #split list w/o stopwords
@@ -127,12 +134,21 @@ def writeToFileWithListV2(list,filename):
   outputFile = open(filename,"w")
   csvWriter = csv.writer(outputFile);
   for line in list:
-    #lineString = ''.join(str(word) for word in line)
+    lineString = type#.join(str(line))
     csvWriter.writerow(line)
   outputFile.close()
 
 
-writeToFileWithListV2(tokenizedWordListWithoutStopWords,"./data/tokenizedWordListWithoutStopWords.csv")
+writeToFileWithListV2(tokenizedWordList,"./data/out.csv")
+writeToFileWithListV2(tokenizedWordListTraining,"./data/train.csv")
+writeToFileWithListV2(tokenizedWordListValidation,"./data/val.csv")
+writeToFileWithListV2(tokenizedWordListTesting,"./data/test.csv")
+
+writeToFileWithListV2(tokenizedWordListWithoutStopWords,"./data/out_ns.csv")
+writeToFileWithListV2(tokenizedWordListWithoutStopWordsTraining,"./data/train_ns.csv")
+writeToFileWithListV2(tokenizedWordListWithoutStopWordsValidation,"./data/val_ns.csv")
+writeToFileWithListV2(tokenizedWordListWithoutStopWordsTesting,"./data/test_ns.csv")
+
 
 #2 Remove the following special characters: !"#$%&()*+/:;<=>@[\\]^`{|}~\t\n
 
