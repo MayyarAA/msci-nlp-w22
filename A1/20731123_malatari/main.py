@@ -2,6 +2,7 @@ import re
 import random
 import csv
 import sys
+import os
 
 
 #get text from file
@@ -57,19 +58,41 @@ def writeToFileWithListV2(list,filename):
   outputFile = open(filename,"w")
   csvWriter = csv.writer(outputFile);
   for line in list:
-    lineString = type#.join(str(line))
+    #lineString = .join(str(line))
     csvWriter.writerow(line)
   outputFile.close()
 
 
 
 
+####creating relative paths in a manner that will run on all OS
+
+# Join various path components for the output data folder
+pathToDataFolderForOutputFiles = "./data"
+pathTotokenizedWordList =os.path.join(pathToDataFolderForOutputFiles,  "out.csv")
+pathTotokenizedWordListTraining =os.path.join(pathToDataFolderForOutputFiles,  "train.csv")
+pathTotokenizedWordListValidation = os.path.join(pathToDataFolderForOutputFiles,  "val.csv")
+pathTotokenizedWordListTesting = os.path.join(pathToDataFolderForOutputFiles,  "test.csv")
+
+pathTotokenizedWordListWithoutStopWords = os.path.join(pathToDataFolderForOutputFiles,  "out_ns.csv")
+pathTotokenizedWordListWithoutStopWordsTraining = os.path.join(pathToDataFolderForOutputFiles,  "train_ns.csv")
+pathTotokenizedWordListWithoutStopWordsValidation = os.path.join(pathToDataFolderForOutputFiles,  "val_ns.csv")
+pathTotokenizedWordListWithoutStopWordsTesting = os.path.join(pathToDataFolderForOutputFiles,  "test_ns.csv")
+
+# Join various path components for the input files
+pathToNegtxt = os.path.join(str(sys.argv[1]),  "neg.txt")
+pathToPostxt = os.path.join(str(sys.argv[1]),  "pos.txt")
+pathToStopWordstxt = os.path.join("./nltkstopwordslist.txt")
+
+##### done creating paths
 
 ##start of script calls
 #take in cmd line args
-posFilePath = str(sys.argv[1]) + "/pos.txt"
-negFilePath =  str(sys.argv[1]) + "/neg.txt"
-stopWordsFilePath =  str(sys.argv[1]) + "/nltkstopwordslist.txt"
+posFilePath = pathToNegtxt
+negFilePath = pathToPostxt
+stopWordsFilePath = pathToStopWordstxt
+
+
 
 #read file inputs into project
 posFileString = retriveTextFromFile(posFilePath)
@@ -132,17 +155,17 @@ tokenizedWordListTesting =  tokenizedWordList[int((len(tokenizedWordList)+1)*.9)
 print(' tokenizedWordListTesting len ', len(tokenizedWordListTesting), ' pop top ',tokenizedWordListTesting.pop(0) )
 
 
-
 #write to output files
-writeToFileWithListV2(tokenizedWordList,"./data/out.csv")
-writeToFileWithListV2(tokenizedWordListTraining,"./data/train.csv")
-writeToFileWithListV2(tokenizedWordListValidation,"./data/val.csv")
-writeToFileWithListV2(tokenizedWordListTesting,"./data/test.csv")
+#writeToFileWithListV2(tokenizedWordList,"./data/out.csv")
+writeToFileWithListV2(tokenizedWordList,pathTotokenizedWordList)
+writeToFileWithListV2(tokenizedWordListTraining,pathTotokenizedWordListTraining)
+writeToFileWithListV2(tokenizedWordListValidation,pathTotokenizedWordListValidation)
+writeToFileWithListV2(tokenizedWordListTesting,pathTotokenizedWordListTesting)
 
-writeToFileWithListV2(tokenizedWordListWithoutStopWords,"./data/out_ns.csv")
-writeToFileWithListV2(tokenizedWordListWithoutStopWordsTraining,"./data/train_ns.csv")
-writeToFileWithListV2(tokenizedWordListWithoutStopWordsValidation,"./data/val_ns.csv")
-writeToFileWithListV2(tokenizedWordListWithoutStopWordsTesting,"./data/test_ns.csv")
+writeToFileWithListV2(tokenizedWordListWithoutStopWords,pathTotokenizedWordListWithoutStopWords)
+writeToFileWithListV2(tokenizedWordListWithoutStopWordsTraining,pathTotokenizedWordListWithoutStopWordsTraining)
+writeToFileWithListV2(tokenizedWordListWithoutStopWordsValidation,pathTotokenizedWordListWithoutStopWordsValidation)
+writeToFileWithListV2(tokenizedWordListWithoutStopWordsTesting,pathTotokenizedWordListWithoutStopWordsTesting)
 
 
 ##### end of script calls
