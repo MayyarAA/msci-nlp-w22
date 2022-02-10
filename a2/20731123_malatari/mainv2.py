@@ -25,6 +25,7 @@ print("test")
 def retriveTextFromFile(filePath):
   with open(filePath) as f:
     posFileString = f.readlines()
+    print("retrieved data from file")
     return posFileString
 
 
@@ -62,8 +63,10 @@ def generateTwoDArray(list):
 tempPath = "../../a1/20731123_malatari/data/"
 #path_To_out_csv =os.path.join(str(sys.argv[1]),"out.csv")
 #path_To_train_csv =os.path.join(str(sys.argv[1]),"labels-train.csv")
+#path_To_train_csv =os.path.join(tempPath,"labels-train-temp.csv")
+#path_To_test_csv =os.path.join(tempPath,"labels-test-temp.csv")
 path_To_train_csv =os.path.join(tempPath,"labels-train-temp.csv")
-path_To_test_csv =os.path.join(tempPath,"labels-test-temp.csv")
+path_To_test_csv =os.path.join(tempPath,"labels-test.csv")
 #path_To_val_csv =os.path.join(str(sys.argv[1]),"val.txt")
 #path_To_test_csv =os.path.join(str(sys.argv[1]),"test.txt")
 #pathToStopWordstxt = os.path.join("./nltkstopwordslist.txt")
@@ -76,8 +79,9 @@ test_string_list = retriveTextFromFile(path_To_test_csv)
 #withstop words
 #create 2d dataframe[tag,senetence]
 train_df_tagged = generateTwoDArray(train_string_list)
+print("finished generating training df")
 test_df_tagged = generateTwoDArray(test_string_list)
-
+print("finished generating testing df")
 
 def NLBUnigram(type, train_df_tagged, test_df_tagged):
   # vectorize the training data set
@@ -129,25 +133,25 @@ def NLBUnigramsBigram(type, train_df_tagged, test_df_tagged):
 #unigram with stopwords
 NLBUnigram("withstopwords",train_df_tagged,test_df_tagged)
 #bigrams with stopwords
-NLBBigram("withstopwords",train_df_tagged,test_df_tagged)
-#unigrams+bigrams with stopwords
-NLBUnigramsBigram("withstopwords",train_df_tagged,test_df_tagged)
-
-# #without stopwords
-# Join various path components for the input files
-path_To_train_withoutstopwords_csv =os.path.join(tempPath,"labels-train_ns-temp.csv")
-path_To_test_withoutstopwords_csv =os.path.join(tempPath,"labels-test_ns-temp.csv")
-#read file inputs into project
-train_string_list_withoutstopwords = retriveTextFromFile(path_To_train_withoutstopwords_csv)
-test_string_list_withoutstopwords = retriveTextFromFile(path_To_test_withoutstopwords_csv)
-#create 2d dataframe[tag,senetence]
-train_df_tagged_withoutstopwords = generateTwoDArray(train_string_list_withoutstopwords)
-test_df_tagged_withoutstopwords = generateTwoDArray(test_string_list_withoutstopwords)
-
-
-#unigram without stopwords
-NLBUnigram("withoutstopwords",train_df_tagged_withoutstopwords,test_df_tagged_withoutstopwords)
-#bigrams without stopwords
-NLBBigram("withoutstopwords",train_df_tagged_withoutstopwords,test_df_tagged_withoutstopwords)
-#unigrams+bigrams without stopwords
-NLBUnigramsBigram("withoutstopwords",train_df_tagged_withoutstopwords,test_df_tagged_withoutstopwords)
+# NLBBigram("withstopwords",train_df_tagged,test_df_tagged)
+# #unigrams+bigrams with stopwords
+# NLBUnigramsBigram("withstopwords",train_df_tagged,test_df_tagged)
+#
+# # #without stopwords
+# # Join various path components for the input files
+# path_To_train_withoutstopwords_csv =os.path.join(tempPath,"labels-train_ns.csv")
+# path_To_test_withoutstopwords_csv =os.path.join(tempPath,"labels-test_ns.csv")
+# #read file inputs into project
+# train_string_list_withoutstopwords = retriveTextFromFile(path_To_train_withoutstopwords_csv)
+# test_string_list_withoutstopwords = retriveTextFromFile(path_To_test_withoutstopwords_csv)
+# #create 2d dataframe[tag,senetence]
+# train_df_tagged_withoutstopwords = generateTwoDArray(train_string_list_withoutstopwords)
+# test_df_tagged_withoutstopwords = generateTwoDArray(test_string_list_withoutstopwords)
+#
+#
+# #unigram without stopwords
+# NLBUnigram("withoutstopwords",train_df_tagged_withoutstopwords,test_df_tagged_withoutstopwords)
+# #bigrams without stopwords
+# NLBBigram("withoutstopwords",train_df_tagged_withoutstopwords,test_df_tagged_withoutstopwords)
+# #unigrams+bigrams without stopwords
+# NLBUnigramsBigram("withoutstopwords",train_df_tagged_withoutstopwords,test_df_tagged_withoutstopwords)
