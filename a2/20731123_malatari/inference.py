@@ -13,10 +13,31 @@ import ssl
 import re
 import pickle
 
-inference_filepath = './infer_test.txt'
+
 cv_uni_path = "./cv_uni.pkl"
 mnb_uni_model_path = "./mnb_uni.pkl"
-terminal_input_pickle_type = "mnb_uni"
+
+cv_bi_path = "./cv_bi.pkl"
+mnb_bi_model_path = "./mnb_bi.pkl"
+
+cv_uni_bi_path = "./cv_uni_bi.pkl"
+mnb_uni_bi_model_path = "./mnb_uni_bi.pkl"
+
+cv_uni_ns_path = "./cv_uni_ns.pkl"
+mnb_uni_ns_model_path = "./mnb_uni_ns.pkl"
+
+cv_bi_ns_path = "./cv_bi_ns.pkl"
+mnb_bi_ns_model_path = "./mnb_bi_ns.pkl"
+
+cv_uni_bi_ns_path = "./cv_uni_bi_ns.pkl"
+mnb_uni_bi_ns_model_path = "./mnb_uni_bi_ns.pkl"
+
+#terminal_input_pickle_type = "mnb_uni"
+#inference_filepath = './infer_test.txt'
+inference_filepath = str(sys.argv[1])
+terminal_input_pickle_type = str(sys.argv[2])
+
+
 
 def retriveTextFromFile(filePath):
     with open(filePath) as f:
@@ -52,29 +73,75 @@ def makePrediction(cv,model):
     for sentence in inference_list:
         inference_mapping = cv.transform([sentence])
         predictions = model.predict(inference_mapping)
-        #result_statement = sentence.join("=>").join(str(predictions[0]))
         result_statement = sentence + str(" => ") + (str(predictions[0]))
         print(result_statement)
+
+def makePredictionV2SameTime(cv,model):
+    inference_mapping = cv.transform(inference_list)
+    predictions = model.predict(inference_mapping)
+    printPredictions(predictions)
+    #score_val_bigrams = metrics.accuracy_score(test_df_tagged_tag, predictions_bigrams)
+
+
+def printPredictions(predictions):
+    for i in range(len(inference_list)):
+        result_statement = inference_list[i] + str(" => ") + (str(predictions[i]))
+        print(result_statement)
+
 def NLBUnigram():
     cv_unigram = pickle.load(open(cv_uni_path,'rb'))
     model_mnb_uni = pickle.load(open(mnb_uni_model_path, 'rb'))
     makePrediction(cv_unigram,model_mnb_uni)
     #inference_unigram_mapping = cv_unigram.transform(inference_list)
     #predictions_unigrams = model_mnb_uni.predict(inference_unigram_mapping)
+def NLBUnigramNS():
+    cv = pickle.load(open(cv_uni_ns_path,'rb'))
+    model = pickle.load(open(mnb_uni_ns_model_path, 'rb'))
+    makePrediction(cv,model)
+
+
+def NLBBigram():
+    cv = pickle.load(open(cv_bi_path,'rb'))
+    model = pickle.load(open(mnb_bi_model_path, 'rb'))
+    makePrediction(cv,model)
+def NLBBigramNS():
+    cv = pickle.load(open(cv_bi_ns_path,'rb'))
+    model = pickle.load(open(mnb_bi_ns_model_path, 'rb'))
+    makePrediction(cv,model)
+
+def NLBUnigramsBigram():
+    cv = pickle.load(open(cv_uni_bi_path,'rb'))
+    model = pickle.load(open(mnb_uni_bi_model_path, 'rb'))
+    makePrediction(cv,model)
+
+def NLBUnigramsBigramNS():
+    cv = pickle.load(open(cv_uni_bi_ns_path,'rb'))
+    model = pickle.load(open(mnb_uni_bi_ns_model_path, 'rb'))
+    makePrediction(cv,model)
+
+
+
 
 def load_necessary_pickles(terminal_input_pickle_type):
     if terminal_input_pickle_type =="mnb_uni":
         NLBUnigram()
         print("terminal_input_pickle_type ", "mnb_uni")
     elif terminal_input_pickle_type =="mnb_bi":
+        NLBBigram()
         print("terminal_input_pickle_type ", "mnb_bi")
     elif terminal_input_pickle_type =="mnb_uni_bi":
+        NLBUnigramsBigram()
         print("terminal_input_pickle_type ", "mnb_uni_bi")
     elif terminal_input_pickle_type =="mnb_uni_ns":
+        NLBUnigramNS()
         print("terminal_input_pickle_type ", "mnb_uni_ns")
     elif terminal_input_pickle_type =="mnb_bi_ns":
+        NLBBigramNS()
         print("terminal_input_pickle_type ", "mnb_bi_ns")
     elif terminal_input_pickle_type =="mnb_uni_bi_ns":
+        NLBUnigramsBigramNS()
         print("terminal_input_pickle_type ", "mnb_uni_bi_ns")
+
+
 
 load_necessary_pickles(terminal_input_pickle_type)
