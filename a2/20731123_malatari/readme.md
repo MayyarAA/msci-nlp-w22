@@ -1,8 +1,3 @@
-| Syntax      | Description | | Description |
-| ----------- | ----------- | | ----------- |
-| Header      | Title       | | Title       |
-| Paragraph   | Text        | | Text        |
-
 
 | Stopwords removed | text feature        | Accuracy(Test set) |
 |---------------|---------------------|--------------------|
