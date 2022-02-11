@@ -14,23 +14,37 @@ import re
 import pickle
 
 dataFolderPath = "./data/"
-cv_uni_path = dataFolderPath + "/cv_uni.pkl"
-mnb_uni_model_path = dataFolderPath + "/mnb_uni.pkl"
 
-cv_bi_path = dataFolderPath + "/cv_bi.pkl"
-mnb_bi_model_path = dataFolderPath + "/mnb_bi.pkl"
+#cv_uni_path = dataFolderPath + "/cv_uni.pkl"
+cv_uni_path = os.path.join(dataFolderPath,"cv_uni.pkl")
+mnb_uni_model_path = os.path.join(dataFolderPath,  "mnb_uni.pkl")
+#mnb_uni_model_path = dataFolderPath + "/mnb_uni.pkl"
 
-cv_uni_bi_path = dataFolderPath + "/cv_uni_bi.pkl"
-mnb_uni_bi_model_path = dataFolderPath + "/mnb_uni_bi.pkl"
 
-cv_uni_ns_path = dataFolderPath + "/cv_uni_ns.pkl"
-mnb_uni_ns_model_path = dataFolderPath + "/mnb_uni_ns.pkl"
+cv_bi_path =os.path.join(dataFolderPath,"cv_bi.pkl")
+    #dataFolderPath + "/cv_bi.pkl"
+mnb_bi_model_path = os.path.join(dataFolderPath,"mnb_bi.pkl")
+    #dataFolderPath + "/mnb_bi.pkl"
 
-cv_bi_ns_path = dataFolderPath + "/cv_bi_ns.pkl"
-mnb_bi_ns_model_path = dataFolderPath + "/mnb_bi_ns.pkl"
+cv_uni_bi_path =os.path.join(dataFolderPath,"cv_uni_bi.pkl")
+    #dataFolderPath + "/cv_uni_bi.pkl"
+mnb_uni_bi_model_path = os.path.join(dataFolderPath,"mnb_uni_bi.pkl")
+    #dataFolderPath + "/mnb_uni_bi.pkl"
 
-cv_uni_bi_ns_path = dataFolderPath + "/cv_uni_bi_ns.pkl"
-mnb_uni_bi_ns_model_path = dataFolderPath + "/mnb_uni_bi_ns.pkl"
+cv_uni_ns_path =os.path.join(dataFolderPath,"cv_uni_ns.pkl")
+    #dataFolderPath + "/cv_uni_ns.pkl"
+mnb_uni_ns_model_path =os.path.join(dataFolderPath,"mnb_uni_ns.pkl")
+    #dataFolderPath + "/mnb_uni_ns.pkl"
+
+cv_bi_ns_path = os.path.join(dataFolderPath,"cv_bi_ns.pkl")
+    #dataFolderPath + "/cv_bi_ns.pkl"
+mnb_bi_ns_model_path = os.path.join(dataFolderPath,"mnb_bi_ns.pkl")
+    #dataFolderPath + "/mnb_bi_ns.pkl"
+
+cv_uni_bi_ns_path =os.path.join(dataFolderPath,"cv_uni_bi_ns.pkl")
+    #dataFolderPath + "/cv_uni_bi_ns.pkl"
+mnb_uni_bi_ns_model_path = os.path.join(dataFolderPath,"mnb_uni_bi_ns.pkl")
+    #dataFolderPath + "/mnb_uni_bi_ns.pkl"
 
 #terminal_input_pickle_type = "mnb_uni"
 #inference_filepath = './infer_test.txt'
