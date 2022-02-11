@@ -143,5 +143,4 @@ def load_necessary_pickles(terminal_input_pickle_type):
         print("terminal_input_pickle_type ", "mnb_uni_bi_ns")
 
 
-
 load_necessary_pickles(terminal_input_pickle_type)
