@@ -1,3 +1,10 @@
+How to run inference.py script:
+
+pass the following cmd args: <.txt file> <.type of model>
+    
+e.g: python3 inference.py ./infer_test.txt  mnb_uni_bi
+
+list of valid models to pass in cmd args: mnb_uni, mnb_bi, mnb_uni_bi, mnb_uni_ns, mnb_bi_ns, mnb_uni_bi_ns
 
 | Stopwords removed | text feature        | Accuracy(Test set) |
 |---------------|---------------------|--------------------|
