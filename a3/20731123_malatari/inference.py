@@ -10,10 +10,16 @@ def retriveTextFromFile(filePath):
     fileString = f.readlines()
     return fileString
 
+def remove_white_space_chars(inputStringValues):
+    list = []
+    for word in inputStringValues:
+        orgWord = word.rstrip('\n')
+        list.append(orgWord)
+    return list
 def predictSimilarWords(inputStringValues):
     for word in inputStringValues:
-        sims = model.wv.most_similar('word', topn=20)
-        print(sims)
+        sims = model.wv.most_similar(word, topn=20)
+        print(f'for the word: {word} it is similar to: {sims}')
 ##render model
 pathToPickledModel = os.path.join(".","data","w2v.model.pkl")
 model = pickle.load(open(pathToPickledModel, 'rb'))
@@ -23,6 +29,8 @@ model = pickle.load(open(pathToPickledModel, 'rb'))
 pathToInputFile = './testtext.txt'
 inputStringValues = retriveTextFromFile(pathToInputFile)
 
+#remove whitespace chars
+inputStringValues= remove_white_space_chars(inputStringValues)
 ##pass input to prediction model
 predictSimilarWords(inputStringValues)
 
