@@ -35,10 +35,10 @@ def pickleModel( model,filename):
 
 
 ##script calls start
-pathToPosFile = os.path.join(str(sys.argv[1]),"pos.txt")
-pathToNegFile = os.path.join(str(sys.argv[1]),"neg.txt")
-#pathToPosFile = "./pos.txt"
-#pathToNegFile = "./neg.txt"
+# pathToPosFile = os.path.join(str(sys.argv[1]),"pos.txt")
+# pathToNegFile = os.path.join(str(sys.argv[1]),"neg.txt")
+pathToPosFile = "./pos.txt"
+pathToNegFile = "./neg.txt"
 posFileData = retriveTextFromFile(pathToPosFile)
 negFileData = retriveTextFromFile(pathToNegFile)
 posFileData.extend(negFileData)
