@@ -10,6 +10,7 @@ print("here")
 def retriveTextFromFile(filePath):
   with open(filePath) as f:
     fileString = f.readlines()
+    print("File data has been retrived")
     return fileString
 
 def removeSpecailCharFromString(orgWord):
@@ -19,9 +20,9 @@ def removeSpecailCharFromString(orgWord):
 def removeSpecailCharFromList(orgWordList):
     list = []
     for sentence in orgWordList:
-        # tok1 = tok.sent_tokenize(removeSpecailCharFromString(sentence))
         tok2 = tok.word_tokenize(removeSpecailCharFromString(sentence))
         list.append(tok2)
+    print("list has been tokenized and special chars removed")
     return list
 
 def pickleModel( model,filename):
@@ -29,14 +30,15 @@ def pickleModel( model,filename):
     # "./data/"
     #filename = "pickled_model_" + type + ".sav"
     pickle.dump(model,open(model_filename,'wb'))
+    print("model has been pickled")
 
 
 
 ##script calls start
-# pathToPosFile = os.path.join(str(sys.argv[1]),"pos.txt")
-# pathToNegFile = os.path.join(str(sys.argv[1]),"neg.txt")
-pathToPosFile = "./pos.txt"
-pathToNegFile = "./neg.txt"
+pathToPosFile = os.path.join(str(sys.argv[1]),"pos.txt")
+pathToNegFile = os.path.join(str(sys.argv[1]),"neg.txt")
+#pathToPosFile = "./pos.txt"
+#pathToNegFile = "./neg.txt"
 posFileData = retriveTextFromFile(pathToPosFile)
 negFileData = retriveTextFromFile(pathToNegFile)
 posFileData.extend(negFileData)
@@ -48,7 +50,9 @@ print(listOfSentences[0])
 
 
 model = Word2Vec(sentences=listOfSentences, vector_size=100, window=5, min_count=1, workers=4)
+#model = Word2Vec(sentences=listOfSentences, vector_size=100, window=5, min_count=1, workers=4)
 sims = model.wv.most_similar('computer', topn=20)
 print(sims)
 #pickle model
 pickleModel(model, "w2v.model.pkl")
+
