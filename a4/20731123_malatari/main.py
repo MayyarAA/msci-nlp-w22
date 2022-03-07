@@ -13,7 +13,6 @@ from keras.preprocessing.sequence import pad_sequences
 
 MAX_SENT_LEN = 30
 MAX_VOCAB_SIZE = 20000
-LSTM_DIM = 128
 EMBEDDING_DIM = 300
 BATCH_SIZE = 32
 

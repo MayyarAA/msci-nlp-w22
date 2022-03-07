@@ -8,6 +8,6 @@ list of valid models to pass in cmd args: sigmoid, relu, tanh
 
 | model type| Accuracy(Test set) |
 |------------|--------------------|
-| sigmoid    | 0.50188901         |
-| relu       | 0.51122908         |
-| tanh       | 0.50041498         |
+| sigmoid    | 51%                |
+| relu       | 51%                |
+| tanh       | 51%                |
