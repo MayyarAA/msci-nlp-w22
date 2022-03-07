@@ -15,9 +15,7 @@ MAX_SENT_LEN = 30
 MAX_VOCAB_SIZE = 20000
 LSTM_DIM = 128
 EMBEDDING_DIM = 300
-#BATCH_SIZE = 500
 BATCH_SIZE = 32
-#N_EPOCHS = 10
 
 # get text from file
 def retriveTextFromFile(filePath):
@@ -64,7 +62,6 @@ tempPathSecondDirectory = "a1-input-data"
 path_To_train_csv = os.path.join(tempPathFirstDirectory,tempPathSecondDirectory, "labels-train.csv")
 path_To_test_csv = os.path.join(tempPathFirstDirectory,tempPathSecondDirectory, "labels-test.csv")
 
-
 train_string_list = retriveTextFromFile(path_To_train_csv)
 test_string_list = retriveTextFromFile(path_To_test_csv)
 
@@ -94,10 +91,7 @@ def saveTokenizer(tok):
 
 def testModel(modelType,model):
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-
     # test the model
-
-    # model_sigmoid.fit(X,Y,batch_size=BATCH_SIZE, epochs=10,validation_data=(X,Y))
     model.fit(X, Y, batch_size=BATCH_SIZE, epochs=10, validation_data=(X_Testing, Y_Testing))
     score, acc = model.evaluate(X_Testing, Y_Testing, batch_size=BATCH_SIZE)
     scoreStringVal = "model => " + modelType + " score => " + str(score) + " accur => " + str(acc)
@@ -115,9 +109,6 @@ def saveModel(modelType,model):
         pickle.dump(model, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
 
-#MAX_SENT_LEN = len(max(word_seq_training, key=len))
-
-
 
 ## add input layer word2vec
 ##take in word2vec from a3
@@ -127,7 +118,6 @@ word2vecModel.wv.save_word2vec_format('word2vmodel.bin', binary=True)
 W2V_DIR = os.path.join('.','word2vmodel.bin')
 embeddings = gensim.models.KeyedVectors.load_word2vec_format(W2V_DIR, binary=True, limit=500000)
 
-##############++++++++++++++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$$$$$$$$$$$$$$$$$$$$$$
 tokenizer = Tokenizer(num_words=20000)
 tokenizer.fit_on_texts( df_training["X"])
 
@@ -153,8 +143,6 @@ Y = np.asarray(training_set_labels)
 testing_set_labels = df_testing["Y"]
 X_Testing=tokenize_padd_data_prep(df_testing)
 Y_Testing=np.asarray(testing_set_labels)
-
-
 
 
 
