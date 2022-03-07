@@ -48,8 +48,7 @@ def build_models(modelType):
     # 145
     model_sigmoid.add(Embedding(input_dim=model_input_dim, output_dim=300, weights=[embeddings_matrix], trainable=False,
                                 mask_zero=True))
-    # model_sigmoid.add(Dense(64, input_dim=8, activation='sigmoid'))
-    model_sigmoid.add(Dense(64, input_dim=8, activation=modelType, kernel_regularizer=l2(0.001)))
+    model_sigmoid.add(Dense(64, activation=modelType, kernel_regularizer=l2(0.001),bias_regularizer=l2(0.001)))
     model_sigmoid.add(Dropout(0.4))
     model_sigmoid.add(Dense(2, activation='softmax', kernel_regularizer=l2(0.001)))
     model_sigmoid.add(Flatten())
@@ -65,15 +64,15 @@ tempPathSecondDirectory = "a1-input-data"
 path_To_train_csv = os.path.join(tempPathFirstDirectory,tempPathSecondDirectory, "labels-train.csv")
 path_To_test_csv = os.path.join(tempPathFirstDirectory,tempPathSecondDirectory, "labels-test.csv")
 
-path_To_val_csv = os.path.join(".", "testtxt.csv")
+
 train_string_list = retriveTextFromFile(path_To_train_csv)
 test_string_list = retriveTextFromFile(path_To_test_csv)
-validation_string_list = retriveTextFromFile(path_To_val_csv)
+
 
 
 list_trainging = generateTwoDArray(train_string_list)
 list_testing = generateTwoDArray(test_string_list)
-list_validation = generateTwoDArray(validation_string_list)
+
 df_training = pd.DataFrame(list_trainging,columns=['X','Y'])
 df_testing =  pd.DataFrame(list_testing,columns=['X','Y'])
 
@@ -124,7 +123,6 @@ word2vecModel.wv.save_word2vec_format('word2vmodel.bin', binary=True)
 W2V_DIR = os.path.join('.','word2vmodel.bin')
 embeddings = gensim.models.KeyedVectors.load_word2vec_format(W2V_DIR, binary=True, limit=500000)
 ##############++++++++++++++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$$$$$$$$$$$$$$$$$$$$$$
-#tokenizer = Tokenizer(num_words=1500000)
 tokenizer = Tokenizer(num_words=20000)
 tokenizer.fit_on_texts( df_training["X"])
 

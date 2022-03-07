@@ -63,6 +63,7 @@ def loadModel(fcnType):
 
 
 def build_printable_predictions(predictions):
+    #print(predictions.argmax(axis=1))
     for pred in predictions:
         res= np.average(pred)
         print(res)
