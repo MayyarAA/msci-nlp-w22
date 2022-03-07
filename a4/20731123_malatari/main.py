@@ -17,6 +17,7 @@ LSTM_DIM = 128
 EMBEDDING_DIM = 300
 BATCH_SIZE = 32
 
+
 # get text from file
 def retriveTextFromFile(filePath):
     with open(filePath) as f:
@@ -31,7 +32,6 @@ def generateTwoDArray(list):
         word = list[i]
         tag = word[:3]
         tag_binary = 1 if tag == "pos" else 0
-        #keep in csv form
         wordWithOutSpecialChars = word[4:].replace(',', ' ')
         wordWithOutSpecialChars = wordWithOutSpecialChars.rstrip('\n')
         listOfWordsTraining.append([ wordWithOutSpecialChars,tag_binary])
@@ -62,6 +62,7 @@ tempPathSecondDirectory = "a1-input-data"
 path_To_train_csv = os.path.join(tempPathFirstDirectory,tempPathSecondDirectory, "labels-train.csv")
 path_To_test_csv = os.path.join(tempPathFirstDirectory,tempPathSecondDirectory, "labels-test.csv")
 
+
 train_string_list = retriveTextFromFile(path_To_train_csv)
 test_string_list = retriveTextFromFile(path_To_test_csv)
 
@@ -91,6 +92,7 @@ def saveTokenizer(tok):
 
 def testModel(modelType,model):
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
     # test the model
     model.fit(X, Y, batch_size=BATCH_SIZE, epochs=10, validation_data=(X_Testing, Y_Testing))
     score, acc = model.evaluate(X_Testing, Y_Testing, batch_size=BATCH_SIZE)
@@ -121,7 +123,7 @@ embeddings = gensim.models.KeyedVectors.load_word2vec_format(W2V_DIR, binary=Tru
 tokenizer = Tokenizer(num_words=20000)
 tokenizer.fit_on_texts( df_training["X"])
 
-#num_words = (len(word_index) + 1)
+
 embeddings_matrix = np.random.uniform(-0.05, 0.05, size=(len(tokenizer.word_index) + 1, EMBEDDING_DIM))
 
 for word, i in tokenizer.word_index.items():
