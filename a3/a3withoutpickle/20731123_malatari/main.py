@@ -57,7 +57,7 @@ print(listOfSentences[0])
 
 
 
-model = Word2Vec(sentences=listOfSentences, vector_size=100, window=5, min_count=1, workers=4)
+model = Word2Vec(sentences=listOfSentences, vector_size=300, window=5, min_count=1, workers=4)
 #model = Word2Vec(sentences=listOfSentences, vector_size=100, window=5, min_count=1, workers=4)
 sims = model.wv.most_similar('computer', topn=20)
 print(sims)
