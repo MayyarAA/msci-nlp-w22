@@ -109,7 +109,11 @@ def saveModel(modelType,model):
     path_To_output = os.path.join(".", "data")
     path_to_output = os.path.join(path_To_output, "nn_"+modelType+".model")
     model.save(path_to_output)
-    model.save("modelType" + ".h5")
+    model.save(modelType+ ".h5")
+    path_to_output_other = os.path.join(".", "othersavedtypes","nn_"+modelType+".model")
+    with open(path_to_output_other, 'wb') as handle:
+        pickle.dump(model, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
 
 #MAX_SENT_LEN = len(max(word_seq_training, key=len))
 
@@ -122,17 +126,13 @@ word2vecModel = Word2Vec.load(pathToNoPickledModel)
 word2vecModel.wv.save_word2vec_format('word2vmodel.bin', binary=True)
 W2V_DIR = os.path.join('.','word2vmodel.bin')
 embeddings = gensim.models.KeyedVectors.load_word2vec_format(W2V_DIR, binary=True, limit=500000)
+
 ##############++++++++++++++++++++++++++++++++++++++>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>$$$$$$$$$$$$$$$$$$$$$$
 tokenizer = Tokenizer(num_words=20000)
 tokenizer.fit_on_texts( df_training["X"])
 
-sequences = tokenizer.texts_to_sequences(df_training["X"])
-word_index = tokenizer.word_index
-review_pad = pad_sequences(sequences)
-label = df_training['Y'].values
-
-num_words = len(word_index) + 1
-embeddings_matrix = np.random.uniform(-0.05, 0.05, size=(num_words, EMBEDDING_DIM))
+#num_words = (len(word_index) + 1)
+embeddings_matrix = np.random.uniform(-0.05, 0.05, size=(len(tokenizer.word_index) + 1, EMBEDDING_DIM))
 
 for word, i in tokenizer.word_index.items():
     try:
@@ -141,6 +141,8 @@ for word, i in tokenizer.word_index.items():
         embeddings_vector = None
     if embeddings_vector is not None:
         embeddings_matrix[i] = embeddings_vector
+
+
 
 
 training_set_labels = df_training["Y"]

@@ -66,6 +66,10 @@ def build_printable_predictions(predictions):
     #print(predictions.argmax(axis=1))
     for pred in predictions:
         res= np.average(pred)
+        if res >0.5 :
+            res = 1
+        else:
+            res=0
         print(res)
 def makePrediction(vals,model):
     build_printable_predictions(model.predict(vals))
